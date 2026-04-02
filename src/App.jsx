@@ -1,25 +1,12 @@
 import { useState } from 'react';
 
 function Square({value, onSquareClick}) {
-  // const [value, setValue] = useState(null)
-  
-  // function handleClick() {
-  //   // console.log('clicked!');
-  //   setValue('X');
-  // }
   return (
     <button className="square" onClick={onSquareClick}>       
     {value}
     </button>
   );
-  // return (
-  //   <button 
-  //     className="square"
-  //     onClick={handleClick}
-  //   >
-  //     {value}
-  //   </button>
-  // );
+  
 }
 
 function Board({xIsNext, squares, onPlay}) {
@@ -31,20 +18,20 @@ function Board({xIsNext, squares, onPlay}) {
 
     const nextSquares = squares.slice();
     if (xIsNext){
-      nextSquares[i] = "X";
+      nextSquares[i] = 'X';
     } else {
-          nextSquares[i] = "O";
+          nextSquares[i] = 'O';
 
     }
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares)
+  const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner: " + winner;
+    status = 'Winner: ' + winner;
   } else {
-    status = "Next Player: " + (xIsNext ? "X" : "O")
+    status = 'Next Player: ' + (xIsNext ? 'X' : 'O');
   }
 
   return (
@@ -69,19 +56,20 @@ function Board({xIsNext, squares, onPlay}) {
   );
 }
 
-export default function Game() {a
-  const [xIsNext, setXIsNext] = useState(true)
-  const [history, setHistory] = useState([Array(9).fill(null)])
-  const currentSquares = history[history.length -1]
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1];
 
   function handlePlay(nextSquares) {
-    //TODO
+    setHistory([...history, nextSquares]);
+    setXIsNext(!xIsNext);
   }
 
   return (
     <div className="game">
         <div className="game-board">
-          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
+          <Board xIsNext={xIsNext} squares={currentSquares}  onPlay={handlePlay} />
         </div>
         <div className="game-info">
           <ol>{ /*TODO*/ }</ol>
