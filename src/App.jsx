@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-function Square({value, onSquareClick}) {
+function Square({value, onSquareClick, isWinning}) {
   return (
-    <button className="square" onClick={onSquareClick}>       
+    <button className={"square" + (isWinning ? " win" : "")}   onClick={onSquareClick}>       
     {value}
     </button>
   );
@@ -29,7 +29,7 @@ function Board({xIsNext, squares, onPlay}) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = 'Winner: ' + winner;
+    status = 'Winner: ' + squares[winner[0]];
   } else if (!winner && !squares.includes(null)) {
     status = 'Draw. '
   } else {
@@ -42,7 +42,7 @@ function Board({xIsNext, squares, onPlay}) {
     for (let j = 0; j < 3; j++){
       let square_id = (i*3) + j;
       row.push(
-        <Square key={square_id} value={squares[square_id]} onSquareClick={() => handleClick(square_id)} />
+        <Square key={square_id} value={squares[square_id]} onSquareClick={() => handleClick(square_id)} isWinning={winner && winner.includes(square_id)} />
       );
     }
     rows.push(
@@ -120,7 +120,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
